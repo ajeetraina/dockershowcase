@@ -9,6 +9,7 @@ A modern React + TypeScript + Vite application showcasing Docker sample applicat
 - 📦 **Browse Docker Samples**: Explore 100+ sample applications from dockersamples
 - 🔍 **Smart Search**: Search by repository name or description
 - 🏷️ **Filter by Products**: Filter samples by Docker products (Scout, DHI, Testcontainers, etc.)
+- 🧪 **Filter by Labspace**: Dedicated filter for interactive learning environments
 - 🧪 **Labspace Support**: Special support for Docker Labspace repositories
   - One-click Docker Compose commands
   - Direct Docker Extension integration
@@ -33,7 +34,7 @@ Click the **"Open in Docker"** button to launch the labspace directly in Docker 
 - 🏷️ Special "Labspace" badge on cards
 - 📋 One-click copy of Docker Compose commands
 - 🔗 Direct link to Docker Extension marketplace
-- 🔍 Dedicated "Labspace" filter
+- 🔍 Dedicated "Filter by Labspace" section (separate from product filters)
 
 ## 🚀 Quick Start with Docker
 
@@ -109,8 +110,10 @@ The Dockerfile uses a multi-stage build approach:
 
 ## 🌟 Available Filters
 
-Filter Docker samples by these categories:
-- **Labspace** - Interactive learning environments
+### Filter by Labspace
+- **Labspace** - Interactive learning environments and workshops
+
+### Filter by Products
 - **Docker Scout** - Security and vulnerability scanning
 - **DHI** - Docker Hub integration
 - **Testcontainers** - Testing with containers

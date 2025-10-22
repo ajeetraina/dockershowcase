@@ -20,6 +20,11 @@ const fetchDockerSamples = async (): Promise<GitHubRepo[]> => {
 
 // Helper function to check if a repo matches a filter
 const repoMatchesFilter = (repo: GitHubRepo, filter: TechnologyFilter): boolean => {
+  // Special handling for Labspace
+  if (filter === 'Labspace') {
+    return repo.name.startsWith('labspace-') || repo.topics.includes('labspace');
+  }
+  
   const topics = TOPIC_MAPPING[filter];
   const keywords = KEYWORD_MAPPING[filter];
   

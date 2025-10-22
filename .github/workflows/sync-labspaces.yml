@@ -1,0 +1,115 @@
+name: Sync Awesome Labspaces
+
+on:
+  schedule:
+    # Run every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch: # Allow manual triggers
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/sync-labspaces.yml'
+
+jobs:
+  sync-labspaces:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Fetch awesome-labspaces data
+        id: fetch-labspaces
+        run: |
+          # Fetch the README from awesome-labspaces
+          curl -s https://raw.githubusercontent.com/dockersamples/awesome-labspaces/main/README.md -o labspaces.md
+          
+          # Extract labspace names using grep and sed
+          grep -oP 'dockersamples/\Klabspace-[\w-]+' labspaces.md | sort -u > labspace-names.txt
+          
+          # Create JSON array
+          echo "[" > public/labspaces.json
+          first=true
+          while IFS= read -r line; do
+            if [ "$first" = true ]; then
+              echo "  \"$line\"" >> public/labspaces.json
+              first=false
+            else
+              echo "  ,\"$line\"" >> public/labspaces.json
+            fi
+          done < labspace-names.txt
+          echo "]" >> public/labspaces.json
+          
+          # Show what we found
+          echo "Found $(wc -l < labspace-names.txt) labspaces"
+          cat public/labspaces.json
+          
+      - name: Create detailed labspace metadata
+        run: |
+          # Create a more detailed metadata file
+          cat > public/labspaces-metadata.json << 'EOF'
+          {
+            "lastUpdated": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "source": "https://github.com/dockersamples/awesome-labspaces",
+            "labspaces": []
+          }
+          EOF
+          
+          # Parse the README to extract more details
+          node << 'NODEJS'
+          const fs = require('fs');
+          const readme = fs.readFileSync('labspaces.md', 'utf8');
+          
+          // Extract labspace information with more details
+          const labspacePattern = /\*\*\[(.*?)\]\((https:\/\/github\.com\/dockersamples\/(labspace-[\w-]+))\)\*\*.*?-\s*(.*?)$/gm;
+          const labspaces = [];
+          let match;
+          
+          while ((match = labspacePattern.exec(readme)) !== null) {
+            labspaces.push({
+              name: match[3],
+              title: match[1],
+              url: match[2],
+              description: match[4].trim(),
+              publishedRepo: `dockersamples/${match[3]}`
+            });
+          }
+          
+          const metadata = {
+            lastUpdated: new Date().toISOString(),
+            source: "https://github.com/dockersamples/awesome-labspaces",
+            count: labspaces.length,
+            labspaces: labspaces
+          };
+          
+          fs.writeFileSync('public/labspaces-metadata.json', JSON.stringify(metadata, null, 2));
+          console.log(`Generated metadata for ${labspaces.length} labspaces`);
+          NODEJS
+          
+      - name: Check for changes
+        id: check-changes
+        run: |
+          git diff --quiet public/labspaces*.json || echo "changed=true" >> $GITHUB_OUTPUT
+          
+      - name: Commit and push if changed
+        if: steps.check-changes.outputs.changed == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add public/labspaces*.json
+          git commit -m "chore: auto-update labspaces data from awesome-labspaces [skip ci]"
+          git push
+          
+      - name: Summary
+        run: |
+          echo "## Labspaces Sync Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Total labspaces found:** $(cat labspace-names.txt | wc -l)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Labspaces:" >> $GITHUB_STEP_SUMMARY
+          cat labspace-names.txt | while read line; do
+            echo "- $line" >> $GITHUB_STEP_SUMMARY
+          done

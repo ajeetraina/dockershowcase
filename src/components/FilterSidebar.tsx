@@ -19,7 +19,7 @@ export const FilterSidebar = ({
   return (
     <aside className="w-full lg:w-64 bg-card border rounded-lg p-6">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold">Filter by Technology</h2>
+        <h2 className="text-lg font-semibold">Filter by Products</h2>
         {selectedFilters.length > 0 && (
           <Button variant="ghost" size="sm" onClick={onClearFilters}>
             Clear

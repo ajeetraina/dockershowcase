@@ -43,9 +43,9 @@ export const FilterSidebar = ({
         )}
       </div>
 
-      {/* Labspace Filter */}
+      {/* Labspaces Filter */}
       <div className="mb-4">
-        <h3 className="text-sm font-semibold mb-3">Filter by Labspace</h3>
+        <h3 className="text-sm font-semibold mb-3">Filter by Labspaces</h3>
         <div className="flex items-center justify-between space-x-2">
           <div className="flex items-center space-x-2 flex-1">
             <Checkbox
@@ -57,7 +57,7 @@ export const FilterSidebar = ({
               htmlFor="labspace"
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
             >
-              Labspace
+              Labspaces
             </label>
           </div>
           <Badge variant="secondary" className="ml-auto">

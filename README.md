@@ -1,6 +1,6 @@
 # Docker Showcase
 
-A modern React + TypeScript + Vite application showcasing Docker sample applications from the dockersamples organization. Browse, search, and filter through Docker samples with enhanced features for labspace repositories.
+A modern React + TypeScript + Vite application showcasing Docker sample applications from the dockersamples organization. Browse, search, and filter through Docker samples with enhanced features for Labspaces repositories.
 
 🌐 **Live Demo**: [https://dockershowcase.vercel.app](https://dockershowcase.vercel.app)
 
@@ -9,40 +9,43 @@ A modern React + TypeScript + Vite application showcasing Docker sample applicat
 - 📦 **Browse Docker Samples**: Explore 100+ sample applications from dockersamples
 - 🔍 **Smart Search**: Search by repository name or description
 - 🏷️ **Filter by Products**: Filter samples by Docker products (Scout, DHI, Testcontainers, etc.)
-- 🧪 **Filter by Labspace**: Dedicated filter for interactive learning environments
-- 🧪 **Labspace Support**: Special support for Docker Labspace repositories
+- 🧪 **Filter by Labspaces**: Dedicated filter for interactive learning environments
+- 🧪 **Labspaces Support**: Special support for Docker Labspaces repositories
   - One-click Docker Compose commands
   - Direct Docker Extension integration
   - Copy-to-clipboard functionality
 - 🎨 **Modern UI**: Built with Shadcn UI and Tailwind CSS
 - 📱 **Responsive Design**: Works seamlessly on desktop and mobile
 
-## 🧪 Labspace Integration
+## 🧪 Labspaces Integration
 
-Labspace repositories are interactive learning environments that can be launched directly from the showcase. These are hands-on workshops and tutorials designed to help you learn Docker concepts through practical experience.
+Labspaces repositories are interactive learning environments that can be launched directly from the showcase. These are hands-on workshops and tutorials designed to help you learn Docker concepts through practical experience.
 
 ### Available Labspaces
 
 Browse the complete collection: [**Awesome Labspaces**](https://github.com/dockersamples/awesome-labspaces)
 
 **Featured Labspaces:**
-1. **[Container Supported Development](https://github.com/dockersamples/labspace-container-supported-development)** - Learn modern container-based development workflows
-2. **[Building Agentic Apps with Docker](https://github.com/dockersamples/labspace-agentic-apps-with-docker)** - Build AI-powered agentic applications using Docker
+1. **[Building Agentic Apps with Docker](https://github.com/dockersamples/labspace-agentic-apps-with-docker)** - Get up and going with building agentic applications with Compose, Docker Model Runner, and the Docker MCP Gateway
+2. **[Using MCP Servers with the MCP Gateway](https://github.com/dockersamples/labspace-mcp-gateway)** - Learn how to use the Docker MCP Gateway to provide your agentic applications with the tools they need to perform complex tasks
+3. **[Fine-tuning Models with Docker Offload and Unsloth](https://github.com/dockersamples/labspace-fine-tuning)** - Learn how to fine-tune lightweight LLMs to meet your application's needs
+4. **[Container-Supported Development](https://github.com/dockersamples/labspace-container-supported-development)** - Run databases, debug tools, and more across your entire team with minimal setup
+5. **[Building Secure Container Images](https://github.com/dockersamples/labspace-building-secure-images)** - Learn to build better and more secure container images with Docker Scout
 
 ### Quick Start Command
-For any labspace repository (e.g., `labspace-container-supported-development`), you'll see a ready-to-use command:
+For any Labspaces repository (e.g., `labspace-container-supported-development`), you'll see a ready-to-use command:
 ```bash
 docker compose -f oci://dockersamples/labspace-container-supported-development up -d
 ```
 
 ### Docker Extension
-Click the **"Open in Docker"** button to launch the labspace directly in Docker Desktop with a single click.
+Click the **"Open in Docker"** button to launch the Labspaces directly in Docker Desktop with a single click.
 
 ### Features for Labspaces:
 - 🏷️ Special "Labspace" badge on cards
 - 📋 One-click copy of Docker Compose commands
 - 🔗 Direct link to Docker Extension marketplace
-- 🔍 Dedicated "Filter by Labspace" section (separate from product filters)
+- 🔍 Dedicated "Filter by Labspaces" section (separate from product filters)
 - 📚 Links to learning resources and documentation
 
 ## 🚀 Quick Start with Docker
@@ -119,8 +122,8 @@ The Dockerfile uses a multi-stage build approach:
 
 ## 🌟 Available Filters
 
-### Filter by Labspace
-- **Labspace** - Interactive learning environments and workshops
+### Filter by Labspaces
+- **Labspaces** - Interactive learning environments and workshops
 
 ### Filter by Products
 - **Docker Scout** - Security and vulnerability scanning

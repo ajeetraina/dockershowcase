@@ -1,8 +1,7 @@
 [
   "labspace-agentic-apps-with-docker",
-  "labspace-mcp-gateway",
-  "labspace-fine-tuning",
-  "labspace-container-supported-development",
   "labspace-building-secure-images",
-  "labspace-devduck"
+  "labspace-container-supported-development",
+  "labspace-fine-tuning",
+  "labspace-mcp-gateway"
 ]

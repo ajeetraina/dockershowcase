@@ -19,22 +19,31 @@ A modern React + TypeScript + Vite application showcasing Docker sample applicat
 
 ## 🧪 Labspace Integration
 
-Labspace repositories are interactive learning environments that can be launched directly from the showcase:
+Labspace repositories are interactive learning environments that can be launched directly from the showcase. These are hands-on workshops and tutorials designed to help you learn Docker concepts through practical experience.
+
+### Available Labspaces
+
+Browse the complete collection: [**Awesome Labspaces**](https://github.com/dockersamples/awesome-labspaces)
+
+**Featured Labspaces:**
+1. **[Container Supported Development](https://github.com/dockersamples/labspace-container-supported-development)** - Learn modern container-based development workflows
+2. **[Building Agentic Apps with Docker](https://github.com/dockersamples/labspace-agentic-apps-with-docker)** - Build AI-powered agentic applications using Docker
 
 ### Quick Start Command
-For labspace repositories (e.g., `labspace-container-supported-development`), you'll see:
+For any labspace repository (e.g., `labspace-container-supported-development`), you'll see a ready-to-use command:
 ```bash
 docker compose -f oci://dockersamples/labspace-container-supported-development up -d
 ```
 
 ### Docker Extension
-Click the **"Open in Docker"** button to launch the labspace directly in Docker Desktop.
+Click the **"Open in Docker"** button to launch the labspace directly in Docker Desktop with a single click.
 
 ### Features for Labspaces:
 - 🏷️ Special "Labspace" badge on cards
 - 📋 One-click copy of Docker Compose commands
 - 🔗 Direct link to Docker Extension marketplace
 - 🔍 Dedicated "Filter by Labspace" section (separate from product filters)
+- 📚 Links to learning resources and documentation
 
 ## 🚀 Quick Start with Docker
 
@@ -147,5 +156,6 @@ This project is open source and available under the MIT License.
 ## 🔗 Related Links
 
 - [Docker Samples Organization](https://github.com/dockersamples)
+- [Awesome Labspaces](https://github.com/dockersamples/awesome-labspaces)
 - [Docker Documentation](https://docs.docker.com)
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)

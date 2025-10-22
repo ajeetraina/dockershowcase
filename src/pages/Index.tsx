@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { GitHubRepo, TechnologyFilter, TOPIC_MAPPING, KEYWORD_MAPPING, TECHNOLOGY_FILTERS } from "@/types/github";
 import { SearchBar } from "@/components/SearchBar";
@@ -18,8 +18,41 @@ const fetchDockerSamples = async (): Promise<GitHubRepo[]> => {
   return response.json();
 };
 
+// Fetch and parse awesome-labspaces README to get official labspace list
+const fetchAwesomeLabspaces = async (): Promise<Set<string>> => {
+  try {
+    const response = await fetch("https://raw.githubusercontent.com/dockersamples/awesome-labspaces/main/README.md");
+    if (!response.ok) {
+      console.warn("Could not fetch awesome-labspaces");
+      return new Set();
+    }
+    const text = await response.text();
+    
+    // Extract repository names from the README
+    // Pattern: dockersamples/labspace-*
+    const repoPattern = /dockersamples\/(labspace-[\w-]+)/g;
+    const matches = text.matchAll(repoPattern);
+    const labspaces = new Set<string>();
+    
+    for (const match of matches) {
+      labspaces.add(match[1]);
+    }
+    
+    return labspaces;
+  } catch (error) {
+    console.error("Error fetching awesome-labspaces:", error);
+    return new Set();
+  }
+};
+
 // Helper function to check if a repo is a labspace
-const isLabspace = (repo: GitHubRepo): boolean => {
+const isLabspace = (repo: GitHubRepo, officialLabspaces?: Set<string>): boolean => {
+  // Check if it's in the official awesome-labspaces list
+  if (officialLabspaces && officialLabspaces.size > 0) {
+    return officialLabspaces.has(repo.name);
+  }
+  
+  // Fallback: check by naming convention and topics
   return repo.name.startsWith('labspace-') || repo.topics.includes('labspace');
 };
 
@@ -50,11 +83,17 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilters, setSelectedFilters] = useState<TechnologyFilter[]>([]);
   const [showLabspaceOnly, setShowLabspaceOnly] = useState(false);
+  const [officialLabspaces, setOfficialLabspaces] = useState<Set<string>>(new Set());
 
   const { data: repos, isLoading, error } = useQuery({
     queryKey: ["dockersamples"],
     queryFn: fetchDockerSamples,
   });
+
+  // Fetch official labspaces list on mount
+  useEffect(() => {
+    fetchAwesomeLabspaces().then(setOfficialLabspaces);
+  }, []);
 
   const handleFilterChange = (filter: TechnologyFilter) => {
     setSelectedFilters((prev) =>
@@ -77,7 +116,7 @@ const Index = () => {
 
     // Apply labspace filter first
     if (showLabspaceOnly) {
-      filtered = filtered.filter(isLabspace);
+      filtered = filtered.filter(repo => isLabspace(repo, officialLabspaces));
     }
 
     // Apply search filter
@@ -97,7 +136,7 @@ const Index = () => {
     }
 
     return filtered;
-  }, [repos, searchQuery, selectedFilters, showLabspaceOnly]);
+  }, [repos, searchQuery, selectedFilters, showLabspaceOnly, officialLabspaces]);
 
   const filterCounts = useMemo(() => {
     const counts: Record<TechnologyFilter, number> = {} as Record<TechnologyFilter, number>;
@@ -110,8 +149,8 @@ const Index = () => {
   }, [repos]);
 
   const labspaceCount = useMemo(() => {
-    return repos?.filter(isLabspace).length || 0;
-  }, [repos]);
+    return repos?.filter(repo => isLabspace(repo, officialLabspaces)).length || 0;
+  }, [repos, officialLabspaces]);
 
   const FilterSidebarContent = () => (
     <FilterSidebar

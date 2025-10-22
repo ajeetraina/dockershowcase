@@ -18,13 +18,13 @@ const fetchDockerSamples = async (): Promise<GitHubRepo[]> => {
   return response.json();
 };
 
+// Helper function to check if a repo is a labspace
+const isLabspace = (repo: GitHubRepo): boolean => {
+  return repo.name.startsWith('labspace-') || repo.topics.includes('labspace');
+};
+
 // Helper function to check if a repo matches a filter
 const repoMatchesFilter = (repo: GitHubRepo, filter: TechnologyFilter): boolean => {
-  // Special handling for Labspace
-  if (filter === 'Labspace') {
-    return repo.name.startsWith('labspace-') || repo.topics.includes('labspace');
-  }
-  
   const topics = TOPIC_MAPPING[filter];
   const keywords = KEYWORD_MAPPING[filter];
   
@@ -49,6 +49,7 @@ const repoMatchesFilter = (repo: GitHubRepo, filter: TechnologyFilter): boolean 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilters, setSelectedFilters] = useState<TechnologyFilter[]>([]);
+  const [showLabspaceOnly, setShowLabspaceOnly] = useState(false);
 
   const { data: repos, isLoading, error } = useQuery({
     queryKey: ["dockersamples"],
@@ -65,10 +66,19 @@ const Index = () => {
     setSelectedFilters([]);
   };
 
+  const handleLabspaceFilterChange = (checked: boolean) => {
+    setShowLabspaceOnly(checked);
+  };
+
   const filteredRepos = useMemo(() => {
     if (!repos) return [];
 
     let filtered = repos;
+
+    // Apply labspace filter first
+    if (showLabspaceOnly) {
+      filtered = filtered.filter(isLabspace);
+    }
 
     // Apply search filter
     if (searchQuery) {
@@ -87,7 +97,7 @@ const Index = () => {
     }
 
     return filtered;
-  }, [repos, searchQuery, selectedFilters]);
+  }, [repos, searchQuery, selectedFilters, showLabspaceOnly]);
 
   const filterCounts = useMemo(() => {
     const counts: Record<TechnologyFilter, number> = {} as Record<TechnologyFilter, number>;
@@ -99,12 +109,19 @@ const Index = () => {
     return counts;
   }, [repos]);
 
+  const labspaceCount = useMemo(() => {
+    return repos?.filter(isLabspace).length || 0;
+  }, [repos]);
+
   const FilterSidebarContent = () => (
     <FilterSidebar
       selectedFilters={selectedFilters}
       onFilterChange={handleFilterChange}
       onClearFilters={handleClearFilters}
       filterCounts={filterCounts}
+      showLabspaceOnly={showLabspaceOnly}
+      onLabspaceFilterChange={handleLabspaceFilterChange}
+      labspaceCount={labspaceCount}
     />
   );
 
@@ -134,7 +151,7 @@ const Index = () => {
               <SheetTrigger asChild>
                 <Button variant="outline" className="w-full">
                   <Menu className="mr-2 h-4 w-4" />
-                  Filters {selectedFilters.length > 0 && `(${selectedFilters.length})`}
+                  Filters {(selectedFilters.length > 0 || showLabspaceOnly) && `(${selectedFilters.length + (showLabspaceOnly ? 1 : 0)})`}
                 </Button>
               </SheetTrigger>
               <SheetContent side="left">

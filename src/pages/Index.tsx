@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { GitHubRepo, TechnologyFilter, TOPIC_MAPPING, TECHNOLOGY_FILTERS } from "@/types/github";
+import { GitHubRepo, TechnologyFilter, TOPIC_MAPPING, KEYWORD_MAPPING, TECHNOLOGY_FILTERS } from "@/types/github";
 import { SearchBar } from "@/components/SearchBar";
 import { FilterSidebar } from "@/components/FilterSidebar";
 import { SampleCard } from "@/components/SampleCard";
@@ -16,6 +16,29 @@ const fetchDockerSamples = async (): Promise<GitHubRepo[]> => {
     throw new Error("Failed to fetch repositories");
   }
   return response.json();
+};
+
+// Helper function to check if a repo matches a filter
+const repoMatchesFilter = (repo: GitHubRepo, filter: TechnologyFilter): boolean => {
+  const topics = TOPIC_MAPPING[filter];
+  const keywords = KEYWORD_MAPPING[filter];
+  
+  // Check if any topics match
+  const hasMatchingTopic = topics.some((topic) => 
+    repo.topics.some((repoTopic) => 
+      repoTopic.toLowerCase().includes(topic.toLowerCase())
+    )
+  );
+  
+  if (hasMatchingTopic) return true;
+  
+  // Check if any keywords match in name or description
+  const repoText = `${repo.name} ${repo.description || ""}`.toLowerCase();
+  const hasMatchingKeyword = keywords.some((keyword) => 
+    repoText.includes(keyword.toLowerCase())
+  );
+  
+  return hasMatchingKeyword;
 };
 
 const Index = () => {
@@ -54,10 +77,7 @@ const Index = () => {
     // Apply technology filters
     if (selectedFilters.length > 0) {
       filtered = filtered.filter((repo) => {
-        return selectedFilters.some((filter) => {
-          const topics = TOPIC_MAPPING[filter];
-          return topics.some((topic) => repo.topics.includes(topic));
-        });
+        return selectedFilters.some((filter) => repoMatchesFilter(repo, filter));
       });
     }
 
@@ -68,10 +88,7 @@ const Index = () => {
     const counts: Record<TechnologyFilter, number> = {} as Record<TechnologyFilter, number>;
     
     TECHNOLOGY_FILTERS.forEach((filter) => {
-      counts[filter] = repos?.filter((repo) => {
-        const topics = TOPIC_MAPPING[filter];
-        return topics.some((topic) => repo.topics.includes(topic));
-      }).length || 0;
+      counts[filter] = repos?.filter((repo) => repoMatchesFilter(repo, filter)).length || 0;
     });
     
     return counts;

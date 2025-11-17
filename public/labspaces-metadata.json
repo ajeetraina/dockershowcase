@@ -1,61 +1,6 @@
 {
-  "lastUpdated": "2025-11-17T13:30:00.000Z",
+  "lastUpdated": "2025-11-17T18:36:10.932Z",
   "source": "https://github.com/dockersamples/awesome-labspaces",
-  "count": 6,
-  "labspaces": [
-    {
-      "name": "labspace-agentic-apps-with-docker",
-      "title": "Building agentic apps with Docker",
-      "url": "https://github.com/dockersamples/labspace-agentic-apps-with-docker",
-      "description": "Get up and going with building agentic applications with Compose, Docker Model Runner, and the Docker MCP Gateway.",
-      "publishedRepo": "dockersamples/labspace-agentic-apps-with-docker",
-      "skillLevel": "beginner",
-      "tags": ["AI", "Docker Model Runner", "MCP Gateway"]
-    },
-    {
-      "name": "labspace-mcp-gateway",
-      "title": "Using MCP Servers with the MCP Gateway",
-      "url": "https://github.com/dockersamples/labspace-mcp-gateway",
-      "description": "Learn how to use the Docker MCP Gateway to provide your agentic applications with the tools they need to perform complex tasks.",
-      "publishedRepo": "dockersamples/labspace-mcp-gateway",
-      "skillLevel": "beginner",
-      "tags": ["AI", "Getting Started", "MCP Gateway"]
-    },
-    {
-      "name": "labspace-fine-tuning",
-      "title": "Fine-tuning models with Docker Offload and Unsloth",
-      "url": "https://github.com/dockersamples/labspace-fine-tuning",
-      "description": "Learn how to fine-tune lightweight LLMs to meet your application's needs",
-      "publishedRepo": "dockersamples/labspace-fine-tuning",
-      "skillLevel": "intermediate",
-      "tags": ["AI"]
-    },
-    {
-      "name": "labspace-container-supported-development",
-      "title": "Container-supported development",
-      "url": "https://github.com/dockersamples/labspace-container-supported-development",
-      "description": "Run databases, debug tools, and more across your entire team with minimal setup.",
-      "publishedRepo": "dockersamples/labspace-container-supported-development",
-      "skillLevel": "beginner",
-      "tags": ["Getting Started"]
-    },
-    {
-      "name": "labspace-building-secure-images",
-      "title": "Building secure container images",
-      "url": "https://github.com/dockersamples/labspace-building-secure-images",
-      "description": "Learn to build better and more secure container images with Docker Scout",
-      "publishedRepo": "dockersamples/labspace-building-secure-images",
-      "skillLevel": "intermediate",
-      "tags": ["Security"]
-    },
-    {
-      "name": "labspace-dhi-node",
-      "title": "Docker DHI - Node",
-      "url": "https://github.com/dockersamples/labspace-dhi-node",
-      "description": "Convert a Node.js application to use Docker Hardened Images (DHI) and see the improved security results.",
-      "publishedRepo": "dockersamples/labspace-dhi-node",
-      "skillLevel": "intermediate",
-      "tags": ["Security"]
-    }
-  ]
+  "count": 0,
+  "labspaces": []
 }

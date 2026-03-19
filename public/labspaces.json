@@ -1,7 +1,12 @@
 [
   "labspace-agentic-apps-with-docker"
+  ,"labspace-ai-fundamentals"
+  ,"labspace-building-images"
   ,"labspace-building-secure-images"
+  ,"labspace-compose-quickstart"
+  ,"labspace-container-getting-started"
   ,"labspace-container-supported-development"
+  ,"labspace-containerized-sdlc"
   ,"labspace-dhi-node"
   ,"labspace-fine-tuning"
   ,"labspace-mcp-gateway"
